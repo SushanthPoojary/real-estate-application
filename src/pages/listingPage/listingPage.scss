@@ -1,0 +1,17 @@
+.listing {
+    display: flex;
+    height: 100%;
+
+    .listing-container {
+        flex: 3;
+
+        .listing-wrapper {
+            padding-right: 50px;
+        }
+    }
+
+    .map-container {
+        flex: 2;
+        background-color: #222831;
+    }
+}
