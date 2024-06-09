@@ -7,8 +7,8 @@ export const listData = [
         bathroom: 1,
         price: 10000000,
         address: "Andheri East, Mumbai",
-        latitude: 51.5074,
-        longitude: -0.1278,
+        latitude: 19.116625,
+        longitude: 72.862358,
     },
     {
         id: 2,
@@ -18,8 +18,8 @@ export const listData = [
         bathroom: 2,
         price: 10000000,
         address: "Andheri West, Mumbai",
-        latitude: 52.4862,
-        longitude: -1.8904,
+        latitude: 19.1364,
+        longitude: 72.8296,
     },
     {
         id: 3,
@@ -29,8 +29,8 @@ export const listData = [
         bathroom: 1,
         price: 10000000,
         address: "Chembur West, Mumbai",
-        latitude: 53.4808,
-        longitude: -2.2426,
+        latitude: 19.0673,
+        longitude: 72.9018,
     },
     {
         id: 4,
@@ -40,8 +40,8 @@ export const listData = [
         bathroom: 1,
         price: 10000000,
         address: "Chembur East, Mumbai",
-        latitude: 53.8008,
-        longitude: -1.5491,
+        latitude: 19.0522,
+        longitude: 72.9005,
     },
     {
         id: 5,
@@ -51,8 +51,8 @@ export const listData = [
         bathroom: 2,
         price: 10000000,
         address: "Borivali East, Mumbai",
-        latitude: 53.4084,
-        longitude: -2.9916,
+        latitude: 19.2298,
+        longitude: 72.8609,
     },
     {
         id: 6,
@@ -62,8 +62,8 @@ export const listData = [
         bathroom: 1,
         price: 10000000,
         address: "Borivali West, Mumbai",
-        latitude: 54.9783,
-        longitude: -1.6174,
+        latitude: 19.2381,
+        longitude: 72.8523,
     },
     {
         id: 7,
@@ -73,8 +73,8 @@ export const listData = [
         bathroom: 1,
         price: 10000000,
         address: "Bandra East",
-        latitude: 53.3811,
-        longitude: -1.4701,
+        latitude: 19.0609,
+        longitude: 72.8465,
     },
     {
         id: 8,
@@ -84,8 +84,8 @@ export const listData = [
         bathroom: 2,
         price: 10000000,
         address: "Bandra West",
-        latitude: 51.4545,
-        longitude: -2.5879,
+        latitude: 19.0596,
+        longitude: 72.8295,
     },
 ];
 

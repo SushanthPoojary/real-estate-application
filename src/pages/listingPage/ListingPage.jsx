@@ -2,11 +2,11 @@ import "./listingPage.scss";
 import { listData } from "../../lib/dummyData";
 import SearchFilter from "../../components/searchFilter/SearchFilter";
 import ListingCard from "../../components/listingCard/ListingCard";
+import Map from "../../components/map/Map";
 
 function ListingPage() {
 
     const data = listData;
-    console.log(data);
 
     return (
         <div className="listing">
@@ -20,7 +20,9 @@ function ListingPage() {
                     </div>
                 </div>
             </div>
-            <div className="map-container">Map</div>
+            <div className="map-container">
+                <Map mapItem={data} />
+            </div>
         </div>
     );
 }

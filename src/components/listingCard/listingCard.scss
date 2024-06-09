@@ -1,3 +1,5 @@
+@import "../../responsive.scss";
+
 .listing-card {
     display: flex;
     flex-direction: column;
@@ -6,6 +8,10 @@
     box-shadow: 1px 3px 10px 0px #DDDDDD;
     border-radius: 10px;
     overflow: hidden;
+
+    @include sm {
+        width: 100%;
+    }
 
     .listing-img-cont {
         flex: 2;
@@ -68,6 +74,12 @@
                     display: flex;
                     align-items: center;
                     gap: 5px;
+
+                    @media (min-width: 1024px) and (max-width: 1250px) {
+                        span {
+                            font-size: 10px;
+                        }
+                    }
 
                 }
             }
