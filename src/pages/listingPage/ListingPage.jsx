@@ -6,15 +6,18 @@ import ListingCard from "../../components/listingCard/ListingCard";
 function ListingPage() {
 
     const data = listData;
+    console.log(data);
 
     return (
         <div className="listing">
             <div className="listing-container">
                 <div className="listing-wrapper">
                     <SearchFilter />
-                    {data.map((item) => (
-                        <ListingCard key={item.id} item={item.item} />
-                    ))}
+                    <div className="listing-cont">
+                        {data.map((item) => (
+                            <ListingCard key={item.id} item={item} />
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className="map-container">Map</div>

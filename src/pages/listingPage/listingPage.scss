@@ -7,6 +7,18 @@
 
         .listing-wrapper {
             padding-right: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            overflow-y: scroll;
+            height: 100%;
+
+            .listing-cont {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 50px;
+                padding: 0px 0px 20px 10px;
+            }
         }
     }
 

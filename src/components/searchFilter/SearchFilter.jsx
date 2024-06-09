@@ -39,7 +39,9 @@ function SearchFilter() {
                     <label htmlFor="bedroom">Bedroom</label>
                     <input type="text" id="bedroom" name="bedroom" placeholder="Any" />
                 </div>
-                <button></button>
+                <button>
+                    <img src="/search.png" alt="" />
+                </button>
             </div>
         </div>
     );
