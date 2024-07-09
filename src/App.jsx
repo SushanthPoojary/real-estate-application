@@ -5,9 +5,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ListingPage from "./pages/listingPage/ListingPage";
-import SingleItem from "./pages/singleItemPage/SingleItemPage";
+// import SingleItem from "./pages/singleItemPage/SingleItemPage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import SingleProperty from "./pages/singlePropertyPage/SinglePropertyPage";
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
         },
         {
           path: "/:id",
-          element: <SingleItem />,
+          element: <SingleProperty />,
         },
         {
           path: "/login",
