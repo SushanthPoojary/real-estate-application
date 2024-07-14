@@ -9,6 +9,7 @@ import ListingPage from "./pages/listingPage/ListingPage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import SingleProperty from "./pages/singlePropertyPage/SinglePropertyPage";
+import Profile from "./pages/profile/Profile";
 
 function App() {
 
@@ -36,6 +37,10 @@ function App() {
         {
           path: "/register",
           element: <Register />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
         }
       ]
     },
