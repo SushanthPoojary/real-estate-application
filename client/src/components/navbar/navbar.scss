@@ -70,6 +70,58 @@ nav {
             }
         }
 
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: space-between;
+
+            a {
+                margin-right: 20px;
+            }
+
+            img {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            span {
+                @include sm {
+                    display: none;
+                }
+
+                @include md {
+                    color: #222831;
+                }
+            }
+
+            .profile-noti {
+                position: relative;
+
+                .noti {
+                    position: absolute;
+                    top: -12px;
+                    right: -12px;
+                    background-color: white;
+                    color: #222831;
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 14px;
+
+                    @include md {
+                        background-color: #222831;
+                        color: white;
+                    }
+                }
+            }
+        }
+
         .login {
             padding: 10px 20px;
             margin: 10px;
