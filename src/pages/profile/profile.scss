@@ -1,17 +1,33 @@
+@import "../../responsive.scss";
+
 .profile {
     display: flex;
     height: 100%;
+
+    @include md {
+        flex-direction: column;
+        overflow: scroll;
+    }
 
     .profile-details {
         flex: 3;
         overflow: auto;
         padding-bottom: 50px;
 
+        @include md {
+            flex: none;
+            height: max-content;
+        }
+
         .wrapper {
             padding-right: 50px;
             display: flex;
             flex-direction: column;
             gap: 50px;
+
+            @include sm {
+                padding-right: 10px;
+            }
 
             .title {
                 display: flex;
@@ -57,9 +73,16 @@
     .profile-chat {
         flex: 2;
         background-color: #222831;
+        height: 100%;
+
+        @include md {
+            flex: none;
+            height: max-content;
+        }
 
         .wrapper {
             padding: 0px 20px;
+            height: 100%;
         }
     }
 }
