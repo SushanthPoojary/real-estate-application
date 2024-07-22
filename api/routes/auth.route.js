@@ -7,6 +7,6 @@ route.post("/register", register);
 
 route.post("/login", login);
 
-route.post("/loggout", logout);
+route.post("/logout", logout);
 
 export default route;
