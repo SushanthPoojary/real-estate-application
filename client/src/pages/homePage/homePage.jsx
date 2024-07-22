@@ -1,4 +1,5 @@
 import SearchBar from "../../components/searchBar/SearchBar";
+import SideImage from "../../components/sideImage/SideImage";
 import "./homePage.scss";
 
 function HomePage() {
@@ -25,11 +26,7 @@ function HomePage() {
                     </div>
                 </div>
             </div>
-            <div className="img-container">
-                <img className="build-one" src="/building-one.png" alt="" />
-                <img className="build-two" src="/building-two.png" alt="" />
-                <img className="farm-house" src="/farm-house.png" alt="" />
-            </div>
+            <SideImage />
         </div>
     )
 }
