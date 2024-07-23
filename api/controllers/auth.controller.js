@@ -3,9 +3,9 @@ import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
-    console.log("Register Route");
+    // console.log("Register Route");
 
-    console.log(req.body);
+    // console.log(req.body);
 
     const { username, email, password } = req.body;
 
@@ -56,11 +56,13 @@ export const login = async (req, res) => {
             expiresIn: age
         });
 
+        const {password: userPass, ...userInfo} = user;
+
         res.cookie("token", token, {
             httpOnly: true,
             // secure: true
             maxAge: age
-        }).status(200).json({ message: "Login Successful" });
+        }).status(200).json(userInfo);
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: "Failed to login" });
