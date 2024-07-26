@@ -2,7 +2,7 @@ import "./profile.scss";
 import ProfileListing from "../../components/profileListing/ProfileListing";
 import Chat from "../../components/chat/Chat";
 import apiRequest from "../../lib/apiRequest";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -10,14 +10,14 @@ function Profile() {
 
     const navigate = useNavigate();
 
-    const {currentUser, updateUser} = useContext(AuthContext);
+    const { currentUser, updateUser } = useContext(AuthContext);
 
     const handleLogout = async (e) => {
         try {
             const res = await apiRequest.post("/auth/logout");
             updateUser(null);
             localStorage.removeItem("user")
-            navigate("/");            
+            navigate("/");
         } catch (err) {
             console.log(err);
         }
@@ -29,7 +29,9 @@ function Profile() {
                 <div className="wrapper">
                     <div className="title">
                         <h3>Your Profile</h3>
-                        <button>Update Profile</button>
+                        <Link to="/profile/update">
+                            <button>Update Profile</button>
+                        </Link>
                     </div>
                     <div className="info">
                         <span>

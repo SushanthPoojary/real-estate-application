@@ -10,6 +10,7 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import SingleProperty from "./pages/singlePropertyPage/SinglePropertyPage";
 import Profile from "./pages/profile/Profile";
+import UpdateProfile from "./pages/updateProfile/UpdateProfile";
 
 function App() {
 
@@ -47,6 +48,10 @@ function App() {
         {
           path: "/profile",
           element: <Profile />,
+        },
+        {
+          path: "/profile/update",
+          element: <UpdateProfile />,
         },
       ]
     }
