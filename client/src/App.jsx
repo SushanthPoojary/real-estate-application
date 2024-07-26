@@ -1,5 +1,5 @@
 import HomePage from "./pages/homePage/homePage";
-import Layout from "./pages/layout/layout";
+import {Layout, RequireAuth} from "./pages/layout/layout";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -38,12 +38,18 @@ function App() {
           path: "/register",
           element: <Register />,
         },
+      ]
+    },
+    {
+      path: "/",
+      element: <RequireAuth />,
+      children: [
         {
           path: "/profile",
           element: <Profile />,
-        }
+        },
       ]
-    },
+    }
   ]);
 
   return (

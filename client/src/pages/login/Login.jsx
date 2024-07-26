@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./login.scss";
 import SideImage from "../../components/sideImage/SideImage";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import apiRequest from "../../lib/apiRequest";
+import { AuthContext } from "../../context/AuthContext";
 
 function Login() {
 
@@ -11,6 +12,8 @@ function Login() {
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
+
+    const {updateUser} = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +27,7 @@ function Login() {
         // const email = formData.get("email");
         const password = formData.get("password");
 
-        // console.log(username, email, password);
+        console.log(username, password);
 
         try {
             const res = await apiRequest.post("/auth/login", {
@@ -33,9 +36,9 @@ function Login() {
                 password
             });
 
-            localStorage.setItem("user", JSON.stringify(res.data));
+            updateUser(res.data);
 
-            navigate("/")
+            navigate("/");
         } catch (err) {
             console.log(err);
             setError(err.response.data.message);
