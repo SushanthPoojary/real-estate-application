@@ -19,11 +19,13 @@ function Register() {
         const formData = new FormData(e.target);
         // console.log(formData);
 
-        const username = formData.get("username");
-        const email = formData.get("email");
-        const password = formData.get("password");
+        // const username = formData.get("username");
+        // const email = formData.get("email");
+        // const password = formData.get("password");
 
-        // console.log(username, email, password);
+        const {username, email, password} = Object.fromEntries(formData);
+
+        console.log(username, email, password);
 
         try {
             const res = await apiRequest.post("/auth/register", {
