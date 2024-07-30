@@ -44,7 +44,9 @@ function Profile() {
                     </div>
                     <div className="title">
                         <h3>Your List</h3>
-                        <button>Add</button>
+                        <Link to="/create">
+                            <button>Create New Post</button>
+                        </Link>
                     </div>
                     <ProfileListing />
                     <div className="title">
