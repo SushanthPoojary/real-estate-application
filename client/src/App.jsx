@@ -11,6 +11,7 @@ import Register from "./pages/register/Register";
 import SingleProperty from "./pages/singlePropertyPage/SinglePropertyPage";
 import Profile from "./pages/profile/Profile";
 import UpdateProfile from "./pages/updateProfile/UpdateProfile";
+import CreatePost from "./pages/createPost/CreatePost";
 
 function App() {
 
@@ -53,6 +54,10 @@ function App() {
           path: "/profile/update",
           element: <UpdateProfile />,
         },
+        {
+          path: "/create",
+          element: <CreatePost />,
+        }
       ]
     }
   ]);
