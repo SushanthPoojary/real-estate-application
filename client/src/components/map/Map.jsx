@@ -5,7 +5,7 @@ import MapPin from "../mapPin/MapPin";
 
 function Map({ mapItem }) {
 
-    console.log(mapItem);
+    // console.log(mapItem);
 
     const position = [19.076090, 72.877426];
 

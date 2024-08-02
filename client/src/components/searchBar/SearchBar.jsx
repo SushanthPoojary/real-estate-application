@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./searchBar.scss";
+import { Link } from "react-router-dom";
 
 const types = ["buy", "rent"];
 
@@ -7,13 +8,17 @@ function SearchBar() {
 
     const [buyRent, setBuyRent] = useState({
         type: "buy",
-        location: "",
+        city: "",
         minPrice: 0,
         maxPrice: 0,
     });
 
     const handleTypeSwitch = (val) => {
         setBuyRent(prev => ({ ...prev, type: val }))
+    }
+
+    const handleChange = (e) => {
+        setBuyRent(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     return (
@@ -24,12 +29,14 @@ function SearchBar() {
                 ))}
             </div>
             <form>
-                <input type="text" name="location" placeholder="City Location" />
-                <input type="text" name="minPrice" min={0} max={10000000} placeholder="Min Price" />
-                <input type="text" name="maxPrice" min={0} max={10000000} placeholder="Max Price" />
-                <button>
-                    <img src="/search.png" alt="" />
-                </button>
+                <input type="text" name="city" placeholder="City Location" onChange={handleChange} />
+                <input type="text" name="minPrice" min={0} max={10000000} placeholder="Min Price" onChange={handleChange} />
+                <input type="text" name="maxPrice" min={0} max={10000000} placeholder="Max Price" onChange={handleChange} />
+                <Link to={`/list?type=${buyRent.type}&city=${buyRent.city}&minPrice=${buyRent.minPrice}&maxPrice=${buyRent.maxPrice}`}>
+                    <button>
+                        <img src="/search.png" alt="" />
+                    </button>
+                </Link>
             </form>
         </div>
     )
