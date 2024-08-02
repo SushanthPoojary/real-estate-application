@@ -8,7 +8,7 @@ import domPurify from "dompurify";
 function SingleProperty() {
 
     const post = useLoaderData();
-    // console.log(post);
+    console.log(post);
 
     return (
         <div className="single-property">
@@ -25,7 +25,7 @@ function SingleProperty() {
                             <div className="price">Rs {post.price}</div>
                         </div>
                         <div className="user">
-                            <img src={post.user.img} alt="" />
+                            <img src={post.user.avatar} alt="" />
                             <span>{post.user.username}</span>
                         </div>
                     </div>

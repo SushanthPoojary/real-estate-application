@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import "./listingCard.scss";
 
 function ListingCard({ item }) {
+    console.log(item);
     return (
         <div className="listing-card">
             <Link to={`/${item.id}`} className="listing-img-cont">
-                <img src={item.img} alt="" />
+                <img src={item.images[0]} alt="" />
             </Link>
             <div className="listing-text-cont">
                 <h2 className="title">
@@ -26,7 +27,7 @@ function ListingCard({ item }) {
                         </div>
                         <div className="bed-bath-wrapper">
                             <img src="/bath.png" alt="" />
-                            <span>{item.bedroom} bathroom</span>
+                            <span>{item.bathroom} bathroom</span>
                         </div>
                     </div>
                     <div className="save-chat-cont">
