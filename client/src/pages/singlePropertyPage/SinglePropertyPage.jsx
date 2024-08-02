@@ -2,29 +2,34 @@ import Slider from "../../components/slider/Slider";
 import "./singlePropertyPage.scss";
 import { singlePostData, userData } from "../../lib/dummyData";
 import Map from "../../components/map/Map";
+import { useLoaderData } from "react-router-dom";
+import domPurify from "dompurify";
 
 function SingleProperty() {
+
+    const post = useLoaderData();
+    // console.log(post);
+
     return (
         <div className="single-property">
             <div className="property-details">
-                <Slider images={singlePostData.images} />
+                <Slider images={post.images} />
                 <div className="property-info">
                     <div className="property-top-info">
                         <div className="data">
-                            <h2>{singlePostData.title}</h2>
+                            <h2>{post.title}</h2>
                             <div className="address">
                                 <img src="/pin.png" alt="" />
-                                <span>{singlePostData.address}</span>
+                                <span>{post.address}</span>
                             </div>
-                            <div className="price">Rs {singlePostData.price}</div>
+                            <div className="price">Rs {post.price}</div>
                         </div>
                         <div className="user">
-                            <img src={userData.img} alt="" />
-                            <span>{userData.name}</span>
+                            <img src={post.user.img} alt="" />
+                            <span>{post.user.username}</span>
                         </div>
                     </div>
-                    <div className="property-bottom-info">
-                        {singlePostData.description}
+                    <div className="property-bottom-info" dangerouslySetInnerHTML={{__html: domPurify.sanitize(post.singlePost.desc)}}>
                     </div>
                 </div>
             </div>
@@ -36,21 +41,21 @@ function SingleProperty() {
                             <img src="/utility.png" alt="" />
                             <div className="utilities">
                                 <h3>Utilities</h3>
-                                <span>Renter is responsible</span>
+                                <span>{post.singlePost.utilities}</span>
                             </div>
                         </div>
                         <div className="general-detail">
                             <img src="/pet.png" alt="" />
                             <div className="utilities">
                                 <h3>Pet Policy</h3>
-                                <span>Pets Allowed</span>
+                                <span>{post.singlePost.pet}</span>
                             </div>
                         </div>
                         <div className="general-detail">
                             <img src="/fee.png" alt="" />
                             <div className="utilities">
-                                <h3>Property Fees</h3>
-                                <span>Must have 3x the rent in total household income</span>
+                                <h3>Income Policy</h3>
+                                <span>{post.singlePost.income}</span>
                             </div>
                         </div>
                     </div>
@@ -58,15 +63,15 @@ function SingleProperty() {
                     <div className="sizes">
                         <div className="sizes-cont">
                             <img src="/size.png" alt="" />
-                            <span>80sqm</span>
+                            <span>{post.singlePost.size}sqm</span>
                         </div>
                         <div className="sizes-cont">
                             <img src="/bed.png" alt="" />
-                            <span>2 bed</span>
+                            <span>{post.singlePost.bed} bed</span>
                         </div>
                         <div className="sizes-cont">
                             <img src="/bath.png" alt="" />
-                            <span>1 bathroom</span>
+                            <span>{post.singlePost.bathroom} bathroom</span>
                         </div>
                     </div>
                     <h3 className="title">Nearby Places</h3>
@@ -75,14 +80,14 @@ function SingleProperty() {
                             <img src="/school.png" alt="" />
                             <div className="place">
                                 <span>School</span>
-                                <span>250m away</span>
+                                <span>{post.singlePost.school}m away</span>
                             </div>
                         </div>
                         <div className="general-detail">
                             <img src="/pet.png" alt="" />
                             <div className="place">
                                 <span>Bus Stop</span>
-                                <span>100m away</span>
+                                <span>{post.singlePost.bus}m away</span>
                             </div>
                         </div>
                         <div className="general-detail">
@@ -95,7 +100,7 @@ function SingleProperty() {
                     </div>
                     <h3 className="title">Location</h3>
                     <div className="map-container">
-                        <Map mapItem={[singlePostData]} />
+                        <Map mapItem={[post]} />
                     </div>
                     <div className="buttons">
                         <button>

@@ -12,6 +12,7 @@ import SingleProperty from "./pages/singlePropertyPage/SinglePropertyPage";
 import Profile from "./pages/profile/Profile";
 import UpdateProfile from "./pages/updateProfile/UpdateProfile";
 import CreatePost from "./pages/createPost/CreatePost";
+import { SinglePropertyLoader } from "./lib/loader";
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
         {
           path: "/:id",
           element: <SingleProperty />,
+          loader: SinglePropertyLoader
         },
         {
           path: "/login",
