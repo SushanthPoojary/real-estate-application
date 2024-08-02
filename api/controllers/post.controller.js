@@ -37,7 +37,7 @@ export const addPost = async (req, res) => {
         const body = req.body;
         const tokenUserId = req.userId;
 
-        // console.log(body.singlePost);
+        // console.log(body);
 
         const createPost = await prisma.post.create({
             data: {
@@ -48,6 +48,8 @@ export const addPost = async (req, res) => {
                 },
             },
         });
+
+        // console.log(createPost);
 
         res.status(200).json(createPost);
     } catch (err) {

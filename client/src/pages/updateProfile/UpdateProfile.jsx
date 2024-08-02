@@ -9,23 +9,23 @@ function UpdateProfile() {
     const [err, setErr] = useState(null);
     const { currentUser, updateUser } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [avatar, setAvatar] = useState(currentUser.avatar);
+    const [avatar, setAvatar] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formdata = new FormData(e.target);
-        console.log(formdata);
+        // console.log(formdata);
 
         const { username, email, password } = Object.fromEntries(formdata);
-        console.log(username, email, password);
+        // console.log(username, email, password);
 
         try {
             const res = await apiRequest.put(`/users/${currentUser.id}`, {
                 username,
                 email,
                 password,
-                avatar
+                avatar: avatar[0]
             });
             console.log(res.data);
 
@@ -52,7 +52,7 @@ function UpdateProfile() {
                 </form>
             </div>
             <div className="avatar-cont">
-                <img src={avatar || "/avatar.png"} alt="" />
+                <img src={avatar[0] || currentUser.avatar || "/avatar.png"} alt="" />
                 <UploadImageWidget
                     uwConfig={{
                         cloudName: "sushanthsp",
@@ -61,7 +61,7 @@ function UpdateProfile() {
                         maxImageFileSize: 2000000,
                         folder: "avatars"
                     }}
-                    setAvatar={setAvatar}
+                    setState={setAvatar}
                     />
             </div>
             {/* <SideImage /> */}

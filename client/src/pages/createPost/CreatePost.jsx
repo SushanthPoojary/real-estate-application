@@ -1,21 +1,77 @@
+import { useState } from "react";
 import "./createPost.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import apiRequest from "../../lib/apiRequest";
+import UploadImageWidget from "../../components/uploadImageWidget/UploadImageWidget";
+import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
+
+    const [descText, setDescText] = useState("");
+    const [error, setError] = useState("");
+    const [images, setImages] = useState([]);
+
+    const navigate = useNavigate();
+
+    console.log(descText);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        // console.log(descText);
+
+        // console.log(data);
+
+        try {
+            const res = await apiRequest.post("/posts", {
+                postData: {
+                    "title": data.title,
+                    "price": parseInt(data.price),
+                    "images": images,
+                    "address": data.address,
+                    "city": data.city,
+                    "bedroom": parseInt(data.bedroom),
+                    "bathroom": parseInt(data.bathroom),
+                    "type": data.type,
+                    "property": data.property,
+                    "latitude": parseFloat(data.latitude),
+                    "longitude": parseFloat(data.longitude)
+                },
+                singlePost: {
+                    "desc": descText,
+                    "utilities": data.utilities,
+                    "pet": data.pet,
+                    "income": data.income,
+                    "size": parseInt(data.size),
+                    "school": parseInt(data.school),
+                    "bus": parseInt(data.bus),
+                    "restaurant": parseInt(data.restaurant)
+                }
+            });
+
+            // console.log(res);
+            navigate("/profile");
+        } catch (err) {
+            console.log(err);
+            setError(err);
+        }
+    }
+
     return (
         <div className="create-post">
             <div className="form-cont">
                 <h1>Add New Post</h1>
                 <div className="wrapper">
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="item">
                             <label htmlFor="title">Title</label>
                             <input id="title" name="title" type="text" />
                         </div>
                         <div className="item">
                             <label htmlFor="price">Price</label>
-                            <input id="price" name="price" type="number" />
+                            <input min={1} id="price" name="price" type="number" />
                         </div>
                         <div className="item">
                             <label htmlFor="address">Address</label>
@@ -23,7 +79,7 @@ function CreatePost() {
                         </div>
                         <div className="item description">
                             <label htmlFor="desc">Description</label>
-                            <ReactQuill theme="snow" />
+                            <ReactQuill theme="snow" onChange={setDescText} value={descText} />
                         </div>
                         <div className="item">
                             <label htmlFor="city">City</label>
@@ -104,10 +160,25 @@ function CreatePost() {
                             <input min={0} id="restaurant" name="restaurant" type="number" />
                         </div>
                         <button className="sendButton">Add</button>
+                        {error && <span>{error}</span>}
                     </form>
                 </div>
             </div>
-            <div className="sideContainer"></div>
+            <div className="sideContainer">
+                <div className="wrapper">
+                    {images.map((image, index) => (
+                        <img src={image} alt="" />
+                    ))}
+                </div>
+                <UploadImageWidget uwConfig={{
+                    cloudName: "sushanthsp",
+                    uploadPreset: "estate",
+                    multiple: true,
+                    folder: "posts"
+                }}
+                    setState={setImages}
+                />
+            </div>
         </div>
     );
 }
