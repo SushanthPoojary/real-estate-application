@@ -3,7 +3,8 @@ import { listData } from "../../lib/dummyData";
 import SearchFilter from "../../components/searchFilter/SearchFilter";
 import ListingCard from "../../components/listingCard/ListingCard";
 import Map from "../../components/map/Map";
-import { useLoaderData } from "react-router-dom";
+import { Await, useLoaderData } from "react-router-dom";
+import { Suspense } from "react";
 
 function ListingPage() {
 
@@ -17,14 +18,38 @@ function ListingPage() {
                 <div className="listing-wrapper">
                     <SearchFilter />
                     <div className="listing-cont">
-                        {posts.map((item) => (
-                            <ListingCard key={item.id} item={item} />
-                        ))}
+                        <Suspense fallback={<p>Loading Posts...</p>}>
+                            <Await
+                                resolve={posts.postResponse}
+                                errorElement={
+                                    <p>Error loading package location!</p>
+                                }
+                            >
+                                {(postResponse) => (
+                                    postResponse.data.map((item) => (
+                                        <ListingCard key={item.id} item={item} />
+                                    ))
+                                )}
+                            </Await>
+                        </Suspense>
                     </div>
                 </div>
             </div>
             <div className="map-container">
-                <Map mapItem={posts} />
+                <Suspense fallback={<p>Loading map location...</p>}>
+                    <Await
+                        resolve={posts.postResponse}
+                        errorElement={
+                            <p>Error loading package location!</p>
+                        }
+                    >
+                        {(postResponse) => (
+
+                            <Map mapItem={postResponse.data} />
+
+                        )}
+                    </Await>
+                </Suspense>
             </div>
         </div>
     );
