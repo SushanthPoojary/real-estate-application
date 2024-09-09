@@ -2,13 +2,36 @@ import Slider from "../../components/slider/Slider";
 import "./singlePropertyPage.scss";
 import { singlePostData, userData } from "../../lib/dummyData";
 import Map from "../../components/map/Map";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import domPurify from "dompurify";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import apiRequest from "../../lib/apiRequest";
 
 function SingleProperty() {
 
     const post = useLoaderData();
-    console.log(post);
+    const navigate = useNavigate();
+    const { currentUser }= useContext(AuthContext);
+    const [saved, setSaved] = useState(post.isSaved)
+    // console.log(post);
+
+    const handleSave = async (e) => {
+        setSaved((prev) => !prev);
+        if (!currentUser) {
+            navigate("/login")
+        }
+
+        // console.log(currentUser);
+
+        try {
+            await apiRequest.post("/users/save", { postId: post.id });
+
+        } catch (err) {
+            console.log(err);
+            setSaved((prev) => !prev);
+        }
+    }
 
     return (
         <div className="single-property">
@@ -107,9 +130,9 @@ function SingleProperty() {
                             <img src="/chat.png" alt="" />
                             Send a Message
                         </button>
-                        <button>
+                        <button onClick={handleSave}>
                             <img src="/save.png" alt="" />
-                            Save the Place
+                            {saved ? "Place Saved" : "Save the Place"}
                         </button>
                     </div>
                 </div>

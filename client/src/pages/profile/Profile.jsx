@@ -2,12 +2,15 @@ import "./profile.scss";
 import ProfileListing from "../../components/profileListing/ProfileListing";
 import Chat from "../../components/chat/Chat";
 import apiRequest from "../../lib/apiRequest";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Suspense, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 function Profile() {
 
+    const posts = useLoaderData();
+    // console.log(posts);
+    
     const navigate = useNavigate();
 
     const { currentUser, updateUser } = useContext(AuthContext);
@@ -48,11 +51,35 @@ function Profile() {
                             <button>Create New Post</button>
                         </Link>
                     </div>
-                    <ProfileListing />
+                    {/* <ProfileListing /> */}
+                    <Suspense fallback={<p>Loading Posts...</p>}>
+                        <Await
+                            resolve={posts.postResponse}
+                            errorElement={
+                                <p>Error loading package location!</p>
+                            }
+                        >
+                            {(postResponse) => (
+                                <ProfileListing posts={postResponse.data.userPosts} />
+                            )}
+                        </Await>
+                    </Suspense>
                     <div className="title">
                         <h3>Your Saved List</h3>
                     </div>
-                    <ProfileListing />
+                    {/* <ProfileListing /> */}
+                    <Suspense fallback={<p>Loading Posts...</p>}>
+                        <Await
+                            resolve={posts.postResponse}
+                            errorElement={
+                                <p>Error loading package location!</p>
+                            }
+                        >
+                            {(postResponse) => (
+                                <ProfileListing posts={postResponse.data.savedPosts} />
+                            )}
+                        </Await>
+                    </Suspense>
                 </div>
             </div>
             <div className="profile-chat">

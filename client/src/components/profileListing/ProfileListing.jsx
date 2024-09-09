@@ -2,11 +2,11 @@ import "./profileListing.scss";
 import { listData } from "../../lib/dummyData"
 import ListingCard from "../listingCard/ListingCard";
 
-function ProfileListing() {
+function ProfileListing({ posts }) {
     return (
         <div className="profile-listing">
             {
-                listData.map(item => (
+                posts.map(item => (
                     <ListingCard key={item.id} item={item} />
                 ))
             }
