@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./listingCard.scss";
 
 function ListingCard({ item }) {
-    console.log(item);
+    // console.log(item);
     return (
         <div className="listing-card">
             <Link to={`/${item.id}`} className="listing-img-cont">
