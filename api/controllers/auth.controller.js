@@ -31,7 +31,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    console.log("login Route");
+    // console.log("login Route");
 
     const { username, password } = req.body;
 
@@ -52,7 +52,7 @@ export const login = async (req, res) => {
 
         const token = jwt.sign({
             id: user.id,
-            isAdmin: true
+            // isAdmin: true
         }, process.env.JWT_SECRET_KEY, {
             expiresIn: age
         });
@@ -73,7 +73,7 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-    console.log("logout Route");
+    // console.log("logout Route");
 
     res.clearCookie("token").status(200).json({ message: "Logout Succesful" })
 }

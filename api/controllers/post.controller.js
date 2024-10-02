@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma.js";
 
 export const getAllPosts = async (req, res) => {
-    console.log(req.query);
+    // console.log(req.query);
     const query = req.query;
     try {
         const postsRes = await prisma.post.findMany({
@@ -17,6 +17,7 @@ export const getAllPosts = async (req, res) => {
                 }
             }
         });
+        // console.log(postsRes);
         res.status(200).json(postsRes);
     } catch (err) {
         console.log(err);
@@ -26,7 +27,7 @@ export const getAllPosts = async (req, res) => {
 
 export const getPost = async (req, res) => {
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
 
     try {
         const post = await prisma.post.findUnique({
@@ -43,6 +44,8 @@ export const getPost = async (req, res) => {
         });
 
         const token = req.cookies?.token;
+        // console.log(token);
+        
 
         if (token) {
             jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, payload) => {
@@ -58,6 +61,8 @@ export const getPost = async (req, res) => {
                     res.status(200).json({ ...post, isSaved: saved ? true : false });
                 }
             });
+        } else {
+            res.status(200).json({ ...post, isSaved: false });
         }
 
         // res.status(200).json({ ...post, isSaved: false });

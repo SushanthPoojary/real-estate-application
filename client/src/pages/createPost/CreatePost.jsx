@@ -14,7 +14,7 @@ function CreatePost() {
 
     const navigate = useNavigate();
 
-    console.log(descText);
+    // console.log(descText);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

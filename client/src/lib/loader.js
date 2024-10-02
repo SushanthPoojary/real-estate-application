@@ -1,9 +1,18 @@
-import { defer } from "react-router-dom";
+import { defer, redirect } from "react-router-dom";
 import apiRequest from "./apiRequest";
 
 export const SinglePropertyLoader = async ({request, params}) => {
-    const res = await apiRequest.get("/posts/" +  params.id);  
-    return res.data;
+    console.log(params.id);
+    try {
+        const res = await apiRequest.get("/posts/" + params.id);
+        // console.log(res);
+        return res.data;
+    } catch (err) {
+        // console.log(err.response.data.message);
+        if (err.response.data.message === "Token is not valid") {
+            return redirect("/login");
+        }
+    }
 }
 
 export const PropertyListsLoader = async ({request,params}) => {
@@ -17,7 +26,9 @@ export const PropertyListsLoader = async ({request,params}) => {
 
 export const ProfileListsLoader = async ({}) => {
     const postPromise = apiRequest.get("/users/profilePosts");
+    const chatPromise = apiRequest("/chats");
     return defer({
         postResponse: postPromise,
+        chatResponse: chatPromise,
     })
 }

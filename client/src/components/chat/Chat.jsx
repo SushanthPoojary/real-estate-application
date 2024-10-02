@@ -1,103 +1,109 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./chat.scss";
+import { AuthContext } from "../../context/AuthContext";
+import apiRequest from "../../lib/apiRequest";
+import { format } from "timeago.js";
+import { SocketContext } from "../../context/SocketContext";
 
-function Chat() {
+function Chat( {chats} ) {
 
-    const [chatPop, setChatPop] = useState(true);
+    const [chatPop, setChatPop] = useState(null);
+    const { currentUser } = useContext(AuthContext);
+    const { socket } = useContext(SocketContext);
+
+    const handleOpenChat = async (id, receiver) => {
+        // console.log(id);
+        try {
+            const res = await apiRequest("/chats/" + id);
+            setChatPop({ ...res.data, receiver });
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const text = formData.get("text");
+        console.log(text);
+
+        if (!text) return;
+
+        try {
+            const res = await apiRequest.post("/messages/" + chatPop.id, { text });
+            setChatPop((prev) => ({ ...prev, messages: [...prev.messages, res.data] }));
+            e.target.reset();
+            socket.emit("sendMessage", {
+                receiverId: chatPop.receiver.id,
+                data: res.data,
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // console.log(chats);
+
+    useEffect(() => {
+
+        const read = async () => {
+            try {
+                await apiRequest.put("/chats/read/" + chatPop.id);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        if (chatPop && socket) {
+            socket.on("getMessage", (data) => {
+                if (chatPop.id === data.chatId) {
+                    setChatPop((prev) => ({ ...prev, message: [...prev.messages, data] }));
+                    read();
+                }
+            });
+        }
+
+        return () => {
+            socket.off("getMessage");
+        };
+    });
 
     return (
         <div className="chat">
             <div className="messages">
                 <h3>Messages</h3>
-                <div className="message">
-                    <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
-                    <span>Sushanth</span>
-                    <p>
-                        Lorem ipsum dolor sit amet...
-                    </p>
-                </div>
-                <div className="message">
-                    <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
-                    <span>Sushanth</span>
-                    <p>
-                        Lorem ipsum dolor sit amet...
-                    </p>
-                </div>
-                <div className="message">
-                    <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
-                    <span>Sushanth</span>
-                    <p>
-                        Lorem ipsum dolor sit amet...
-                    </p>
-                </div>
-                <div className="message">
-                    <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
-                    <span>Sushanth</span>
-                    <p>
-                        Lorem ipsum dolor sit amet...
-                    </p>
-                </div>
-                <div className="message">
-                    <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
-                    <span>Sushanth</span>
-                    <p>
-                        Lorem ipsum dolor sit amet...
-                    </p>
-                </div>
-                <div className="message">
-                    <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
-                    <span>Sushanth</span>
-                    <p>
-                        Lorem ipsum dolor sit amet...
-                    </p>
-                </div>
-                <div className="message">
-                    <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
-                    <span>Sushanth</span>
-                    <p>
-                        Lorem ipsum dolor sit amet...
-                    </p>
-                </div>
+                {chats.map((item) => (
+                    <div className="message" key={item.id} style={{ backgroundColor: item.seenBy.includes(currentUser.id || chat?.id === item.id) ? "white" : "#fecd514eS" }} onClick={() => handleOpenChat(item.id, item.receiver)}>
+                        <img src={item.receiver.avatar || "/avatar.png"} alt="" />
+                        <span>{item.receiver.username}</span>
+                        <p>
+                            {item.lastMessage}
+                        </p>
+                    </div>
+                ))}
             </div>
             {chatPop &&
                 <div className="chat-box">
                     <div className="top">
                         <div className="user">
-                            <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
-                            Sushanth
+                            <img src={chatPop.receiver.avatar || "/avatar.png"} alt="" />
+                            { chatPop.receiver.username }
                         </div>
                         <span className="close" onClick={() => setChatPop(null)}>X</span>
                     </div>
                     <div className="center">
-                        <div className="chat-message own">
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <span>1 hour ago</span>
-                        </div>
-                        <div className="chat-message">
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <span>1 hour ago</span>
-                        </div>
-                        <div className="chat-message own">
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <span>1 hour ago</span>
-                        </div>
-                        <div className="chat-message">
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <span>1 hour ago</span>
-                        </div>
-                        <div className="chat-message own">
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <span>1 hour ago</span>
-                        </div>
-                        <div className="chat-message">
-                            <p>Lorem ipsum dolor sit amet</p>
-                            <span>1 hour ago</span>
-                        </div>
+                        {chatPop.messages.map((message) => (
+                            <div className={message.userId === currentUser.id ? "chat-message own" : "chat-message"} key={message.id}>
+                                <p>{message.text}</p>
+                                <span>{ format(message.createdAt) }</span>
+                            </div>
+                        ))}
                     </div>
-                    <div className="bottom">
-                        <textarea name="" id=""></textarea>
+                    <form onSubmit={handleSubmit} className="bottom">
+                        <textarea name="text" id=""></textarea>
                         <button>Send</button>
-                    </div>
+                    </form>
                 </div>
             }
         </div>
