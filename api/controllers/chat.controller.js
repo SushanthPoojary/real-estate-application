@@ -39,9 +39,9 @@ export const getChats = async (req, res) => {
 export const getChat = async (req, res) => {
 
     const tokenUserId = req.userId;
-    console.log(tokenUserId);
+    // console.log(tokenUserId);
 
-    console.log(req.params.id);
+    // console.log(req.params.id);
 
     try {
         const chat = await prisma.chat.findUnique({
@@ -103,9 +103,14 @@ export const readChat = async (req, res) => {
                 userIds: {
                     hasSome: [tokenUserId],
                 }
+            },
+            data: {
+                seenBy: {
+                    set: [tokenUserId],
+                }
             }
         })
-        res.status(200).json();
+        res.status(200).json(chat);
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: "Failed to read chat" });

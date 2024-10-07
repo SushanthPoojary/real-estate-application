@@ -132,6 +132,8 @@ export const profilePosts = async (req, res) => {
             }
         });
 
+        // console.log(saved);
+
         const savedPosts = saved.map((item) => item.post);
         
         // console.log(savedPosts);
@@ -140,5 +142,33 @@ export const profilePosts = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(400).json({ message: "Failed to get users" })
+    }
+}
+
+export const getNotiNumber = async (req, res) => {
+
+    const tokenUserId = req.userId;
+    // console.log(tokenUserId);
+
+    try {
+        const chatsNumber = await prisma.chat.count({
+            where: { 
+                userIds: {
+                    hasSome: [tokenUserId],
+                },
+                NOT: {
+                    seenBy: {
+                        hasSome: [tokenUserId]
+                    }
+                }
+            },
+        });
+
+        // console.log(chatsNumber);
+        
+        res.status(200).json(chatsNumber);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ message: "Failed to get notification" })
     }
 }
