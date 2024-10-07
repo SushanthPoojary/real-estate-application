@@ -25,7 +25,7 @@ function Register() {
 
         const {username, email, password} = Object.fromEntries(formData);
 
-        console.log(username, email, password);
+        // console.log(username, email, password);
 
         try {
             const res = await apiRequest.post("/auth/register", {

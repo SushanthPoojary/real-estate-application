@@ -5,7 +5,7 @@ import { addPost, deletePost, getAllPosts, getPost, updatePost } from "../contro
 const postRoutes = express.Router();
 
 postRoutes.get("/", getAllPosts);
-postRoutes.get("/:id", verifyToken, getPost);
+postRoutes.get("/:id", getPost);
 postRoutes.post("/", verifyToken, addPost);
 postRoutes.put("/:id", verifyToken, updatePost);
 postRoutes.delete("/:id", verifyToken, deletePost);

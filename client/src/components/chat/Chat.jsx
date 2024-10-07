@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./chat.scss";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
@@ -11,10 +11,17 @@ function Chat( {chats} ) {
     const { currentUser } = useContext(AuthContext);
     const { socket } = useContext(SocketContext);
 
+    const messageEndRef = useRef();
+
+    useEffect(() => {
+        messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [chatPop]);
+
     const handleOpenChat = async (id, receiver) => {
         // console.log(id);
         try {
             const res = await apiRequest("/chats/" + id);
+            // console.log(res);
             setChatPop({ ...res.data, receiver });
         } catch(err) {
             console.log(err);
@@ -26,7 +33,7 @@ function Chat( {chats} ) {
 
         const formData = new FormData(e.target);
         const text = formData.get("text");
-        console.log(text);
+        // console.log(text);
 
         if (!text) return;
 
@@ -47,7 +54,10 @@ function Chat( {chats} ) {
 
     useEffect(() => {
 
+        // console.log("chat effect");
+
         const read = async () => {
+            // console.log(chatPop);
             try {
                 await apiRequest.put("/chats/read/" + chatPop.id);
             } catch (err) {
@@ -58,23 +68,23 @@ function Chat( {chats} ) {
         if (chatPop && socket) {
             socket.on("getMessage", (data) => {
                 if (chatPop.id === data.chatId) {
-                    setChatPop((prev) => ({ ...prev, message: [...prev.messages, data] }));
-                    read();
+                  setChatPop((prev) => ({ ...prev, messages: [...prev.messages, data] }));
+                  read();
                 }
-            });
+              });
         }
 
         return () => {
             socket.off("getMessage");
         };
-    });
+    }, [chatPop, socket]);
 
     return (
         <div className="chat">
             <div className="messages">
                 <h3>Messages</h3>
                 {chats.map((item) => (
-                    <div className="message" key={item.id} style={{ backgroundColor: item.seenBy.includes(currentUser.id || chat?.id === item.id) ? "white" : "#fecd514eS" }} onClick={() => handleOpenChat(item.id, item.receiver)}>
+                    <div className="message" key={item.id} style={{ backgroundColor: item.seenBy.includes(currentUser.id) || chatPop?.id === item.id ? "white" : "#777777", }} onClick={() => handleOpenChat(item.id, item.receiver)}>
                         <img src={item.receiver.avatar || "/avatar.png"} alt="" />
                         <span>{item.receiver.username}</span>
                         <p>
@@ -99,6 +109,7 @@ function Chat( {chats} ) {
                                 <span>{ format(message.createdAt) }</span>
                             </div>
                         ))}
+                        <div ref={messageEndRef}></div>
                     </div>
                     <form onSubmit={handleSubmit} className="bottom">
                         <textarea name="text" id=""></textarea>
